@@ -5,6 +5,11 @@ User script to pan webpages using the middle mouse button.
 
 Tested in Chromium, might work in Firefox.
 
+Installation
+============
+
+Download the script and chrome will ask if you want to install it: [Download here](https://github.com/DanielG/panscroll/raw/master/panscroll.user.js)
+
 Licence
 =======
 
