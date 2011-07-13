@@ -1,4 +1,7 @@
 // ==UserScript==
+// @name PanScroll
+// @description User script to pan webpages using the middle mouse button.
+// @licence GPLv3; http://www.gnu.org/copyleft/gpl.html
 // @match http://*/*
 // @match https://*/*
 // ==/UserScript==
