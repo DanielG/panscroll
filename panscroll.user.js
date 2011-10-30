@@ -24,39 +24,51 @@
  */
 
 (function(){
-    var mouseButton = 1 // middle mouse button (tested in chromium)
+    var mouseButton = 1; // middle mouse button (tested in chromium)
+    var paralyzeHoldoff = 80; // ms mouseclick window
+
     var lastEv = null;
 
     document.addEventListener('mousemove', function(ev){
-        if(!lastEv) {
-            lastEv = ev;
-            return;
-        }
-
         var btn = ev.button;
         if (btn == mouseButton) { // middle mouse button
             window.scrollBy(lastEv.screenX - ev.screenX
                             , lastEv.screenY - ev.screenY);
-        } else {
-            lastEv = 0
         }
 
         lastEv = ev;
     });
 
-    var preventClickEvents = function(ev){
-        if(ev.button == 1) {
-            var el = null;
-            if(el = ev.toElement) {
-                el.onclick = null;
-                el.onmousedown = null;
-                el.onmouseup = null;
-            }
-        }
-    }
+    var downEvent = null;
+    var downTime = 0;
+    var downTimeout = null;
 
-    document.addEventListener('mousedown', preventClickEvents);
-    document.addEventListener('mouseup', preventClickEvents);
-    document.addEventListener('click', preventClickEvents);
+    document.addEventListener('mousedown', function(ev){
+        if(ev.button != mouseButton) return;
+
+        if(!ev._panscroll_handled) {
+            downEvent = ev;
+            downTime = new Date().getTime();
+
+            downTimeout = setTimeout(function(){
+                ev._panscroll_handled = true;
+                downEvent.srcElement.dispatchEvent(ev);
+            }, paralyzeHoldoff);
+        }
+    });
+
+    document.addEventListener('mouseup', function(ev){
+        clearTimeout(downTimeout);
+    });
+
+    document.addEventListener('click', function(ev){
+        if(ev.button != mouseButton) return;
+
+        if(new Date().getTime() - downTime > paralyzeHoldoff) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            return false;
+        }
+    });
 })(undefined);
 

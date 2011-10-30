@@ -8,7 +8,8 @@ Tested in Chromium, might work in Firefox.
 Installation
 ============
 
-Download the script and chrome will ask if you want to install it: [Download here](https://github.com/DanielG/panscroll/raw/master/panscroll.user.js)
+Download the script and chrome will ask if you want to install it:
+[Download here](https://github.com/DanielG/panscroll/raw/master/panscroll.user.js)
 
 Licence
 =======
